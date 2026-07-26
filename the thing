@@ -1,0 +1,52 @@
+import random
+
+options = ("rock", "paper", "scissors")
+player = None
+playerScore = 0
+computerScore = 0
+running = True
+
+while running:
+    player = input("What is your choice(Rock, Paper, or Scissors)(q to quit): ").lower()
+    if player == "q":
+        running = False
+    elif player in options:
+        computer = random.choice(options)
+        if computer == player:
+            print("It's a Tie")
+            playerScore += 1
+            computerScore += 1
+        elif computer == "rock" and player == "scissors":
+            print("Its a Loss")
+            computerScore += 1
+        elif computer == "paper" and player == "rock":
+            print("Its a Loss")
+            computerScore += 1
+        elif computer == "scissors" and player == "paper":
+            print("Its a Loss")
+            computerScore += 1
+        else:
+            print("Its a Win!")
+            playerScore += 1
+        print(f"Player played: {player}")
+        print(f"Computer played: {computer}")
+    else:
+        print("Your answer is not one of the options!")
+
+print("-----Final Results-----")
+
+if computerScore == playerScore:
+    print("The final result is a TIE in points!")
+elif computerScore > playerScore:
+    print("The final result is, the Computer WINS!")
+else:
+    print("The final result is, the Player WINS!")
+
+print("-----Statistics-----")
+
+print(f"Your score was: {playerScore}")
+print(f"The computer's score was: {computerScore}")
+
+playerWinRate = (playerScore / (playerScore + computerScore)) * 100
+
+print(f"Your winrate was: {playerWinRate:.2f}")
