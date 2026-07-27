@@ -1,0 +1,63 @@
+import random
+
+wordList = ("apple", "pear", "car", "cat", "bike", "human", "window", "phone", "stove", "bottle")
+playerGuesses = 0
+correctGuesses= 0
+incorrectGuesses = 0
+rightGuessedLetters = []
+wrongGuessedLetters = []
+playerScore = 0
+attemptsLeft = 7
+hintsLeft = 2
+wordAttemptsLeft = 2
+theWord = random.choice(wordList)
+hints = (len(theWord), theWord[0], theWord[-1])
+
+print("The word is a NOUN!")
+
+while attemptsLeft > 0:
+    print(f"Guesses left = {attemptsLeft} /// Hints left = {hintsLeft}")
+    letterGuess = input("What letter do you want to guess?(! to guess the word)(? for hint): ").lower()
+    if letterGuess.isalpha() and len(letterGuess) == 1 or letterGuess == "!" or letterGuess == "?":
+        if letterGuess == "!" and wordAttemptsLeft > 0:
+            print(f"Word guess attempts left = {wordAttemptsLeft}")
+            wordGuess = input("Guess the word here: ").lower()
+            if wordGuess == theWord:
+                print(f"{theWord} is the word!!!")
+                break
+            else:
+                wordAttemptsLeft -= 1
+        elif letterGuess == "?" and hintsLeft > 0:
+            chosenHint = random.choice(hints)
+            print()
+            if chosenHint == len(theWord):
+                print(f"The word is {chosenHint} letters long!")
+            elif chosenHint == theWord[0]:
+                print(f"The first letter of the word is {chosenHint}")
+            else:
+                print(f"The last letter of the word is {chosenHint}")
+            print()
+            hintsLeft -= 1
+        elif letterGuess.isalpha():
+            if letterGuess in theWord:
+                rightGuessedLetters.append(letterGuess)
+                correctGuesses += 1
+            else:
+                wrongGuessedLetters.append(letterGuess)
+                incorrectGuesses += 1
+            playerGuesses += 1
+            attemptsLeft -= 1
+        elif hintsLeft == 0 or wordAttemptsLeft == 0:
+            print("You have ran out of attempts/hints!")
+    else:
+        print("Your guess might have either symbols/numbers or more then one letter in it!")
+
+    print(f"Letters guessed correctly = {rightGuessedLetters}")
+    print(f"Letters guessed wrong = {wrongGuessedLetters}")
+    print()
+
+print("-----STATS-----")
+print(f"Letters guesses needed = {playerGuesses}")
+print(f"Correct guesses = {correctGuesses}")
+print(f"Incorrect guesses = {incorrectGuesses}")
+print(f"Hints needed = {2 - hintsLeft}")
