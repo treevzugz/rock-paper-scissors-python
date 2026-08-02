@@ -1,0 +1,67 @@
+import random
+
+difficultyLevels = {"easy": (1, 10),
+                    "medium": (11, 25),
+                    "hard": (26, 50),
+                    "extreme": (51, 100)}
+symbols = ("+", "-", "*", "/")
+
+
+def game(difnum):
+    rights = 0
+    wrongs = 0
+    questionsanswered = 0
+    while True:
+        num1 = random.randint(difnum[0],difnum[1])
+        num2 = random.randint(difnum[0],difnum[1])
+        symbolchoice = random.choice(symbols)
+        questionanswer = ""
+        if symbolchoice == "+":
+            questionanswer = num1 + num2
+        elif symbolchoice == "-":
+            if num2 > num1:
+                questionanswer = num2 - num1
+            else:
+                questionanswer = num1 - num2
+        elif symbolchoice == "*":
+                questionanswer = num1 * num2
+        elif symbolchoice == "/":
+            if num2 > num1:
+                questionanswer = round(num2 / num1)
+            else:
+                questionanswer = round(num1 / num2)
+        if num2 > num1 and symbolchoice in ("-", "/"):
+            useranswer = input(f"What is {num2} {symbolchoice} {num1} (q to quit): ")
+            if useranswer.lower() == "q":
+                break
+            useranswer = round(float(useranswer))
+        else:
+            useranswer = input(f"What is {num1} {symbolchoice} {num2} (q to quit): ")
+            if useranswer.lower() == "q":
+                break
+            useranswer = float(useranswer)
+        if questionanswer == useranswer:
+            print("Correct!")
+            rights += 1
+        else:
+            print("Wrong")
+            print(f"Answer = {questionanswer}")
+            wrongs += 1
+        questionsanswered += 1
+    return rights, wrongs, questionsanswered
+
+
+print("Welcome to the math quiz!")
+while True:
+    difInput = input("What difficulty would like the quiz to be?(Easy, Medium, Hard, Extreme)(q to quit): ").lower()
+    if difInput == "q":
+        break
+    if difInput in difficultyLevels:
+        rights, wrongs, questionsanswered = game(difficultyLevels[difInput])
+    else:
+        print("Invalid difficulty.")
+
+print("-----RESULTS-----")
+print(f"Number of questions answered = {questionsanswered}")
+print(f"Number of questions gotten right = {rights}")
+print(f"Number of questions gotten wrong = {wrongs}")
